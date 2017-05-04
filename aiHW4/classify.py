@@ -76,7 +76,7 @@ def train(instances, algorithm):
 	algorithms = {
 		"decision_tree": DecisionTree(),
 		"naive_bayes": NaiveBayes(),
-		"neural_network": NeuralNetwork
+		"neural_net": NeuralNetwork
 	}
 	predictor = algorithms[algorithm]
 	predictor.train(instances)
