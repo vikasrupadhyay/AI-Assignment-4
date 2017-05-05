@@ -28,7 +28,9 @@ class NaiveBayes(Predictor):
             self.class_priors[label] = self.class_priors[label] / float(len(instances))
             for feature in features:
                 mean = self._mean(classes[label], feature)
+                print('Label: ' + str(label) + ' mean: ' + str(mean))
                 variance = self._variance(classes[label], feature, mean)
+                print('Label: ' + str(label) + ' variance: ' + str(variance))
                 self.likelihoods[label][feature] = mean, variance
 
     def _mean(self, instances, feature):  # Can be improved with np
@@ -45,7 +47,14 @@ class NaiveBayes(Predictor):
 
     def _gaussian(self, value, mv):
         mean, variance = mv
-        gaussian = np.sqrt(2 * np.pi * (variance)**2) * np.exp((-1/2*(variance)**2)*(value - mean))
+        # mean = 0.8551401869158878
+        # variance = 0.9507481023210923
+        # value = 2.0
+        # print('value', value)
+        # print('m, v', mv)
+        # gaussian = (1/np.sqrt(2 * np.pi * (variance))) * np.exp((-1/(2*(variance)))*(value - mean))
+        gaussian = (1/np.sqrt(2*np.pi*variance)) * np.exp((-1/(2*variance))*(value - mean)**2)
+        # print('gaussian', gaussian)
         return gaussian
 
     def predict(self, instance):
