@@ -2,10 +2,9 @@ import os
 import argparse
 import sys
 import pickle
-from Methods import ClassificationLabel, FeatureVector, Instance, Predictor
+from Methods import ClassificationLabel, FeatureVector, Instance, Predictor, NeuralNetwork
 from NaiveBayes import NaiveBayes
 from DecisionTree import DecisionTree
-from NeuralNetwork import NeuralNetwork
 
 
 def load_data(filename):
@@ -28,10 +27,17 @@ def load_data(filename):
 
 				feature_vector.add(index, value)
 				index += 1
+
 			instance = Instance(feature_vector, label)
 			instances.append(instance)
 
+
+
 	return instances
+
+
+def clean_neural(instances,filename):
+	pass
 
 
 def get_args():
@@ -47,13 +53,11 @@ def get_args():
 
 	return args
 
-
 def predict(predictor, instances):
 	for instance in instances:
 		label = predictor.predict(instance)
 
 		print(str(label))
-
 
 def check_args(args):
 	if args.mode.lower() == "train":
@@ -62,7 +66,6 @@ def check_args(args):
 	else:
 		if not os.path.exists(args.model_file):
 			raise Exception("model file specified by --model-file does not exist.")
-
 
 def train(instances, algorithm):
 	# """
@@ -80,6 +83,7 @@ def train(instances, algorithm):
 	}
 	predictor = algorithms[algorithm]
 	predictor.train(instances)
+
 	return predictor
 
 
@@ -88,6 +92,7 @@ def main():
 	if args.mode.lower() == "train":
 		# Load training data.
 		instances = load_data(args.data)
+
 		# Train
 		predictor = train(instances, args.algorithm)
 		try:
