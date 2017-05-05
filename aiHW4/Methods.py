@@ -8,31 +8,32 @@ class Label:
     @abstractmethod
     def __str__(self): pass
 
-       
+
 class ClassificationLabel(Label):
     def __init__(self, label):
         #self.label_num = int(label)
         self.label_str = str(label)
         pass
-        
+
     def __str__(self):
-        print self.label_str
-        pass
+        return self.label_str
+
 
 # the feature vectors will be stored in dictionaries so that they can be sparse structures
 class FeatureVector:
+
     def __init__(self):
         self.feature_vec = {}
         pass
-        
+
     def add(self, index, value):
         self.feature_vec[index] = value
         pass
-        
+
     def get(self, index):
         val = self.feature_vec[index]
         return val
-        
+
 
 class Instance:
     def __init__(self, feature_vector, label):
@@ -64,14 +65,6 @@ include methods called train() and predict() in your subclasses
 """
 
 
-
-class DecisionTree(Predictor):
-    def main():
-
-
-        return 0
-
-
 class NeuralNetwork(Predictor):
 
     def __init__(self):
@@ -81,7 +74,7 @@ class NeuralNetwork(Predictor):
         self.l1_w =[]
         self.l2_w=[]
 
-        
+
 
 
     def train(self, instances):
@@ -152,14 +145,14 @@ class NeuralNetwork(Predictor):
             # Propogation
             l0 = X
             prod = np.dot(l0,theta0)
-            l1 = 1 / (1 + np.exp(-prod)) 
+            l1 = 1 / (1 + np.exp(-prod))
             prod = np.dot(l1,theta2)
-            l2 = 1 / (1 + np.exp(-prod)) 
+            l2 = 1 / (1 + np.exp(-prod))
 
             l2error = l2 - Y
 
             #calculation of error
-        
+
             if (iter% 10000) == 0:
                 print "Error after "+str(iter)+" iterations:" + str(np.mean(np.abs(l2error)))
 
@@ -169,7 +162,7 @@ class NeuralNetwork(Predictor):
             l1delt = l1error * (l1*(1-l1))
 
             #Update the weights
-            
+
             theta2 = theta2 - 0.001*(l1.T.dot(l2delt))
             theta0 = theta0 - 0.001*(l0.T.dot(l1delt))
         self.l1_w = theta0
@@ -177,18 +170,18 @@ class NeuralNetwork(Predictor):
 
         print len(theta0),len(theta2),len(X)
 
-    """      For a Single hidden layer setting  
+    """      For a Single hidden layer setting
 
             for iter in range(0,80000):
 
             l0 = X
             prod = np.dot(l0,theta0)
-            l1 = 1 / (1 + np.exp(-prod)) 
+            l1 = 1 / (1 + np.exp(-prod))
             prod = np.dot(l1,theta2)
-            #l2 = 1 / (1 + np.exp(-prod)) 
+            #l2 = 1 / (1 + np.exp(-prod))
 
             l1error = l1 - Y
-        
+
             if (iter% 10000) == 0:
                 print "Error after "+str(iter)+" iterations:" + str(np.mean(np.abs(l2error)))
 
@@ -196,10 +189,10 @@ class NeuralNetwork(Predictor):
 
             #l1error = l2delt.dot(np.transpose(theta2.T))
             #l1delt = l1error * (l1*(1-l1))
-            
+
             #theta2 = theta2 - 0.001*(l1.T.dot(l2delt))
             theta0 = theta0 - 0.001*(l0.T.dot(l1delt))
-    
+
     """
     def predict(self, instance):
 
@@ -214,11 +207,3 @@ class NeuralNetwork(Predictor):
         l2_op = 1 / ( 1 + (-np.dot(l1_op,self.l2_w)))
 
         print l2_op
-
-
-
-class NaiveBayes():
-
-    def main():
-
-        return 0
