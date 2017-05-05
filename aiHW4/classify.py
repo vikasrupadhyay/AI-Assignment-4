@@ -2,9 +2,10 @@ import os
 import argparse
 import sys
 import pickle
-from Methods import ClassificationLabel, FeatureVector, Instance, Predictor, NeuralNetwork
+from Methods import ClassificationLabel, FeatureVector, Instance, Predictor
 from NaiveBayes import NaiveBayes
 from DecisionTree import DecisionTree
+from NeuralNetwork import NeuralNetwork
 
 
 def load_data(filename):
@@ -54,10 +55,15 @@ def get_args():
 	return args
 
 def predict(predictor, instances):
+	correct = 0
 	for instance in instances:
 		label = predictor.predict(instance)
-
+		if label == str(instance.label):
+			correct += 1
 		print(str(label))
+	print('Correct', correct)
+	print('Total', len(instances))
+	print('Accuracy', 100 * correct/float(len(instances)))
 
 def check_args(args):
 	if args.mode.lower() == "train":
@@ -79,7 +85,7 @@ def train(instances, algorithm):
 	algorithms = {
 		"decision_tree": DecisionTree(),
 		"naive_bayes": NaiveBayes(),
-		"neural_net": NeuralNetwork(),
+		"neural_network": NeuralNetwork(),
 	}
 	predictor = algorithms[algorithm]
 	predictor.train(instances)

@@ -19,9 +19,6 @@ class NaiveBayes(Predictor):
                 classes[label] = []
             classes[label].append(instance)
             self.class_priors[label] += 1
-        # print('likelihoods', self.likelihoods)
-        # print('classes', classes)
-        # print('class_priors', self.class_priors)
         features = instances[0].feature_vector.feature_vec.keys()
         # Training model
         for label in self.class_priors:
@@ -47,14 +44,7 @@ class NaiveBayes(Predictor):
 
     def _gaussian(self, value, mv):
         mean, variance = mv
-        # mean = 0.8551401869158878
-        # variance = 0.9507481023210923
-        # value = 2.0
-        # print('value', value)
-        # print('m, v', mv)
-        # gaussian = (1/np.sqrt(2 * np.pi * (variance))) * np.exp((-1/(2*(variance)))*(value - mean))
         gaussian = (1/np.sqrt(2*np.pi*variance)) * np.exp((-1/(2*variance))*(value - mean)**2)
-        # print('gaussian', gaussian)
         return gaussian
 
     def predict(self, instance):
